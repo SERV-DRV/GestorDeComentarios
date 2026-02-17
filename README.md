@@ -125,7 +125,7 @@ PORT=3001
 # Conexión a Base de Datos
 URI_MONGODB=mongodb://127.0.0.1:27017/FACEKINAL
 
-# Cloudinary (obtenlas de: https://console.cloudinary.com/console)
+# Cloudinary (obténlas de: https://console.cloudinary.com/console)
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
 CLOUDINARY_API_SECRET=tu_api_secret
@@ -634,7 +634,7 @@ pnpm test
 
 ## 📝 Notas Adicionales
 
-- Las contraseñas se almacenan en texto plano actualmente (se recomienda implementar hashing con Argon2)
+- **⚠️ IMPORTANTE - Seguridad:** Las contraseñas actualmente se almacenan en texto plano. Aunque Argon2 está incluido como dependencia, **no está implementado**. Se recomienda fuertemente implementar el hashing de contraseñas antes de usar este sistema en producción.
 - Las imágenes se suben automáticamente a Cloudinary
 - Si no se proporciona una imagen, se usa una imagen por defecto
 - Los usuarios y publicaciones pueden ser activados/desactivados sin eliminarlos
