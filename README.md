@@ -634,7 +634,7 @@ pnpm test
 
 ## 📝 Notas Adicionales
 
-- **⚠️ IMPORTANTE - Seguridad:** Las contraseñas actualmente se almacenan en texto plano. Aunque Argon2 está incluido como dependencia, **no está implementado**. Se recomienda fuertemente implementar el hashing de contraseñas antes de usar este sistema en producción.
+- **🚨 CRÍTICO - Vulnerabilidad de Seguridad:** Las contraseñas actualmente se almacenan en texto plano. Aunque Argon2 está incluido como dependencia, **NO está implementado**. **NO USAR EN PRODUCCIÓN** hasta implementar el hashing de contraseñas. Esto representa un riesgo de seguridad grave.
 - Las imágenes se suben automáticamente a Cloudinary
 - Si no se proporciona una imagen, se usa una imagen por defecto
 - Los usuarios y publicaciones pueden ser activados/desactivados sin eliminarlos
