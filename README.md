@@ -68,9 +68,9 @@ Tienes dos opciones:
 ### 3. Cuenta de Cloudinary
 - Crea una cuenta gratuita en [https://cloudinary.com/](https://cloudinary.com/)
 - Ve a tu Dashboard para obtener:
-  - Cloud Name
-  - API Key
-  - API Secret
+  - Nombre de la Nube (Cloud Name)
+  - Clave API (API Key)
+  - Secreto API (API Secret)
 
 ### 4. Git
 - Descarga desde: [https://git-scm.com/](https://git-scm.com/)
@@ -244,10 +244,10 @@ Verifica el estado del servidor.
 #### 1. GET `/users`
 Obtiene la lista de todos los usuarios.
 
-**Query Parameters (Opcionales):**
+**Parámetros de Consulta (Opcionales):**
 - `isActive` (boolean): Filtra por usuarios activos/inactivos
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 GET http://localhost:3001/kinalface/v1/users
 GET http://localhost:3001/kinalface/v1/users?isActive=true
@@ -287,7 +287,7 @@ Obtiene un usuario específico por su ID.
 **Parámetros:**
 - `id` (string): ID de MongoDB del usuario
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 GET http://localhost:3001/kinalface/v1/users/65f8a9b2c3d4e5f6a7b8c9d0
 ```
@@ -330,7 +330,7 @@ Inicia sesión de un usuario.
 
 **Nota:** El campo `login` puede ser el username o el email.
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 POST http://localhost:3001/kinalface/v1/users/login
 Content-Type: application/json
@@ -372,13 +372,13 @@ Crea un nuevo usuario.
 
 **Content-Type:** `multipart/form-data`
 
-**Form Data:**
+**Datos del Formulario:**
 - `username` (string, requerido): Nombre de usuario (3-30 caracteres)
 - `email` (string, requerido): Correo electrónico válido
 - `password` (string, requerido): Contraseña (mínimo 6 caracteres)
 - `photo` (file, opcional): Imagen de perfil
 
-**Ejemplo de Request (usando curl):**
+**Ejemplo de Solicitud (usando curl):**
 ```bash
 curl -X POST http://localhost:3001/kinalface/v1/users \
   -F "username=juanperez" \
@@ -387,7 +387,7 @@ curl -X POST http://localhost:3001/kinalface/v1/users \
   -F "photo=@/ruta/a/imagen.jpg"
 ```
 
-**Ejemplo de Body (JSON representativo):**
+**Ejemplo de Cuerpo (JSON representativo):**
 ```json
 {
   "username": "juanperez",
@@ -430,14 +430,14 @@ Actualiza un usuario existente.
 
 **Content-Type:** `multipart/form-data`
 
-**Form Data (todos opcionales):**
+**Datos del Formulario (todos opcionales):**
 - `username` (string): Nuevo nombre de usuario
 - `email` (string): Nuevo correo electrónico
 - `photo` (file): Nueva imagen de perfil
 - `passwordActual` (string): Contraseña actual (requerida si se cambia la contraseña)
 - `passwordNueva` (string): Nueva contraseña
 
-**Ejemplo de Request (usando curl):**
+**Ejemplo de Solicitud (usando curl):**
 ```bash
 curl -X PUT http://localhost:3001/kinalface/v1/users/65f8a9b2c3d4e5f6a7b8c9d0 \
   -F "username=juanperez_updated" \
@@ -469,7 +469,7 @@ Activa un usuario.
 **Parámetros:**
 - `id` (string): ID de MongoDB del usuario
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 PUT http://localhost:3001/kinalface/v1/users/65f8a9b2c3d4e5f6a7b8c9d0/activate
 ```
@@ -498,7 +498,7 @@ Desactiva un usuario.
 **Parámetros:**
 - `id` (string): ID de MongoDB del usuario
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 PUT http://localhost:3001/kinalface/v1/users/65f8a9b2c3d4e5f6a7b8c9d0/desactivate
 ```
@@ -526,10 +526,10 @@ PUT http://localhost:3001/kinalface/v1/users/65f8a9b2c3d4e5f6a7b8c9d0/desactivat
 #### 1. GET `/publications`
 Obtiene la lista de todas las publicaciones.
 
-**Query Parameters (Opcionales):**
+**Parámetros de Consulta (Opcionales):**
 - `isActive` (boolean): Filtra por publicaciones activas/inactivas
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 GET http://localhost:3001/kinalface/v1/publications
 GET http://localhost:3001/kinalface/v1/publications?isActive=true
@@ -573,7 +573,7 @@ Obtiene una publicación específica por su ID.
 **Parámetros:**
 - `id` (string): ID de MongoDB de la publicación
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 GET http://localhost:3001/kinalface/v1/publications/65f8a9b2c3d4e5f6a7b8c9d2
 ```
@@ -610,14 +610,14 @@ Crea una nueva publicación.
 
 **Content-Type:** `multipart/form-data`
 
-**Form Data:**
+**Datos del Formulario:**
 - `userId` (string, requerido): ID de MongoDB del usuario que crea la publicación
 - `title` (string, requerido): Título de la publicación (máximo 150 caracteres)
 - `category` (string, requerido): Categoría de la publicación (máximo 50 caracteres)
 - `content` (string, requerido): Contenido de la publicación
 - `photo` (file, opcional): Imagen de la publicación
 
-**Ejemplo de Request (usando curl):**
+**Ejemplo de Solicitud (usando curl):**
 ```bash
 curl -X POST http://localhost:3001/kinalface/v1/publications \
   -F "userId=65f8a9b2c3d4e5f6a7b8c9d0" \
@@ -627,7 +627,7 @@ curl -X POST http://localhost:3001/kinalface/v1/publications \
   -F "photo=@/ruta/a/imagen.jpg"
 ```
 
-**Ejemplo de Body (JSON representativo):**
+**Ejemplo de Cuerpo (JSON representativo):**
 ```json
 {
   "userId": "65f8a9b2c3d4e5f6a7b8c9d0",
@@ -665,13 +665,13 @@ Actualiza una publicación existente.
 
 **Content-Type:** `multipart/form-data`
 
-**Form Data (todos opcionales):**
+**Datos del Formulario (todos opcionales):**
 - `title` (string): Nuevo título
 - `category` (string): Nueva categoría
 - `content` (string): Nuevo contenido
 - `photo` (file): Nueva imagen
 
-**Ejemplo de Request (usando curl):**
+**Ejemplo de Solicitud (usando curl):**
 ```bash
 curl -X PUT http://localhost:3001/kinalface/v1/publications/65f8a9b2c3d4e5f6a7b8c9d2 \
   -F "title=Título actualizado" \
@@ -705,7 +705,7 @@ Activa una publicación.
 **Parámetros:**
 - `id` (string): ID de MongoDB de la publicación
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 PUT http://localhost:3001/kinalface/v1/publications/65f8a9b2c3d4e5f6a7b8c9d2/activate
 ```
@@ -736,7 +736,7 @@ Desactiva una publicación.
 **Parámetros:**
 - `id` (string): ID de MongoDB de la publicación
 
-**Ejemplo de Request:**
+**Ejemplo de Solicitud:**
 ```bash
 PUT http://localhost:3001/kinalface/v1/publications/65f8a9b2c3d4e5f6a7b8c9d2/desactivate
 ```
@@ -791,16 +791,16 @@ Inicia el servidor en modo desarrollo con nodemon (reinicio automático al detec
 
 ## 🐛 Solución de Problemas
 
-### Error: "Cannot connect to MongoDB"
+### Error: "No se puede conectar a MongoDB"
 - **Solución 1:** Verifica que MongoDB esté corriendo localmente (`mongod`)
 - **Solución 2:** Verifica que tu URI de MongoDB Atlas sea correcta
 - **Solución 3:** Verifica que tu IP esté en la lista blanca de MongoDB Atlas
 
-### Error: "Cloudinary credentials invalid"
+### Error: "Credenciales de Cloudinary inválidas"
 - Verifica que hayas configurado correctamente las variables de entorno de Cloudinary
 - Asegúrate de que las credenciales sean correctas en tu Dashboard de Cloudinary
 
-### Error: "Port already in use"
+### Error: "El puerto ya está en uso"
 - El puerto 3001 ya está siendo usado por otra aplicación
 - Cambia el puerto en tu archivo `.env` a otro disponible (ej: 3002, 3003)
 

@@ -35,10 +35,10 @@ Las siguientes variables están disponibles:
 
 ## 📋 Colección de Endpoints
 
-### Health Check
+### Verificación de Estado (Health Check)
 - **Get Health Status** - Verifica que el servidor esté corriendo
 
-### Users (Usuarios)
+### Usuarios (Users)
 - **Get All Users** - Obtiene todos los usuarios
 - **Get Active Users** - Obtiene solo usuarios activos
 - **Get User By ID** - Obtiene un usuario específico
@@ -49,7 +49,7 @@ Las siguientes variables están disponibles:
 - **Activate User** - Activa un usuario
 - **Deactivate User** - Desactiva un usuario
 
-### Publications (Publicaciones)
+### Publicaciones (Publications)
 - **Get All Publications** - Obtiene todas las publicaciones
 - **Get Active Publications** - Obtiene solo publicaciones activas
 - **Get Publication By ID** - Obtiene una publicación específica
@@ -109,7 +109,7 @@ Puedes modificar las variables de entorno según tu configuración:
 
 ## 🐛 Solución de Problemas
 
-### Error: "Could not get response"
+### Error: "No se pudo obtener respuesta"
 - Verifica que el servidor esté corriendo en `http://localhost:3001`
 - Verifica que MongoDB esté conectado
 
