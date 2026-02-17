@@ -1,0 +1,550 @@
+{
+  "info": {
+    "_postman_id": "35beb416-3be8-4320-9ecd-a330b7eaec57",
+    "name": "FACEKINAL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48297207"
+  },
+  "item": [
+    {
+      "name": "Crear user",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "Santiago",
+              "type": "text",
+              "uuid": "bd898228-43c3-4cd5-8179-d8c50b3f78fa"
+            },
+            {
+              "key": "email",
+              "value": "sderosa-2023220@kinal.edu.gt",
+              "type": "text",
+              "uuid": "cabbc88a-8357-4374-bd7e-61f41a8357c5"
+            },
+            {
+              "key": "password",
+              "value": "20santiago08",
+              "type": "text",
+              "uuid": "0daf5241-b843-43ea-b831-1fa5147a2e85"
+            },
+            {
+              "key": "photo",
+              "type": "file",
+              "uuid": "a49ac976-38c6-4139-a7e1-faec3ec39e8c",
+              "src": "/C:/Users/Informatica/Desktop/kinal-logo.png"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"login\": \"Santiago\",\r\n  \"password\": \"20santiago08\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar users",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"login\": \"Santiago\",\r\n  \"password\": \"20santiago08\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar users /id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "Santiago",
+              "type": "text",
+              "uuid": "bd898228-43c3-4cd5-8179-d8c50b3f78fa"
+            },
+            {
+              "key": "email",
+              "value": "sderosa-2023220@kinal.edu.gt",
+              "type": "text",
+              "uuid": "cabbc88a-8357-4374-bd7e-61f41a8357c5"
+            },
+            {
+              "key": "password",
+              "value": "20santiago08",
+              "type": "text",
+              "uuid": "0daf5241-b843-43ea-b831-1fa5147a2e85"
+            },
+            {
+              "key": "photo",
+              "type": "file",
+              "uuid": "a49ac976-38c6-4139-a7e1-faec3ec39e8c",
+              "src": "/C:/Users/Informatica/Desktop/kinal-logo.png"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users/[ID_USER]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users",
+            "[ID_USER]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar users /id",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "Enrique",
+              "type": "text",
+              "uuid": "2a8e8e8c-19dc-4802-828e-d3f0ef03903f"
+            },
+            {
+              "key": "email",
+              "value": "",
+              "type": "text",
+              "uuid": "f1dd4d03-f19d-4690-9953-2343a5a4a8fc",
+              "disabled": true
+            },
+            {
+              "key": "passwordActual",
+              "value": "20santiago08",
+              "type": "text",
+              "uuid": "39e410a0-1f56-4241-b248-9675db99a003"
+            },
+            {
+              "key": "passwordNueva",
+              "value": "asdasd",
+              "type": "text",
+              "uuid": "08175e2c-78ca-473d-b712-7015933e64e8"
+            },
+            {
+              "key": "photo",
+              "value": "",
+              "type": "text",
+              "uuid": "593a2e7e-bb45-4fc4-ba69-35e8e2cf7b44",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users/[ID_USER]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users",
+            "[ID_USER]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Activate or desactivate user /id/activate o desactivate",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "username",
+              "value": "Enrique",
+              "type": "text",
+              "uuid": "2a8e8e8c-19dc-4802-828e-d3f0ef03903f"
+            },
+            {
+              "key": "email",
+              "value": "",
+              "type": "text",
+              "uuid": "f1dd4d03-f19d-4690-9953-2343a5a4a8fc",
+              "disabled": true
+            },
+            {
+              "key": "passwordActual",
+              "value": "20santiago08",
+              "type": "text",
+              "uuid": "39e410a0-1f56-4241-b248-9675db99a003"
+            },
+            {
+              "key": "passwordNueva",
+              "value": "asdasd",
+              "type": "text",
+              "uuid": "08175e2c-78ca-473d-b712-7015933e64e8"
+            },
+            {
+              "key": "photo",
+              "value": "",
+              "type": "text",
+              "uuid": "593a2e7e-bb45-4fc4-ba69-35e8e2cf7b44",
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/users/[ID_USER]/[activate o desactivate]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "users",
+            "[ID_USER]",
+            "[activate o desactivate]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear publications",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"userId\": \"[ID_USER]\",\r\n  \"title\": \"Mi primera publicación\",\r\n  \"category\": \"Opinión\",\r\n  \"content\": \"Esta es una publicación de prueba\",\r\n  \"photo\": \"archivo.jpg\" \r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/publications",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "publications"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar publications",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/publications",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "publications"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar publications /id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/publications/[ID_PUBLICATION]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "publications",
+            "[ID_PUBLICATION]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Editar publications",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Titulo Editado\",\r\n    \"text\": \"Contenido corregido.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/publications/[ID_PUBLICATION]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "publications",
+            "[ID_PUBLICATION]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Actualizar publicacions (/activate o /desactivate)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Titulo Editado\",\r\n    \"text\": \"Contenido corregido.\"\r\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/publications/[ID_PUBLICATION]/[activate o desactivate]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "publications",
+            "[ID_PUBLICATION]",
+            "[activate o desactivate]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear comentaries",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"text\": \"Estoy de acuerdo con tu publicacion!\",\r\n    \"user\": \"[ID_USER]\",       \r\n    \"publication\": \"[ID_PUBLICATION]\"  \r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/comentaries",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "comentaries"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Listar comentaries /for publication /id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/comentaries/[ID_PUBLICATION]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "comentaries",
+            "[ID_PUBLICATION]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Editar un comentaries /(id comentaries)",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"text\": \"Comentario corregido por el autor.\",\r\n    \"user\": \"[ID_USER]\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/comentaries/[ID_COMENTARIES]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "comentaries",
+            "[ID_COMENTARIES]"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Activate or desactivate comentaries /id/activate o desactivate",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"user\": \"[ID_USER]\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3001/kinalface/v1/comentaries/[ID_COMENTARIES]/[activate o desactivate]",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "kinalface",
+            "v1",
+            "comentaries",
+            "[ID_COMENTARIES]",
+            "[activate o desactivate]"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
