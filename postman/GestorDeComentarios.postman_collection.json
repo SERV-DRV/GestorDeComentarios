@@ -1,0 +1,420 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "GestorDeComentarios - FaceKinal API",
+		"description": "Colección completa de endpoints para el sistema de gestión de opiniones FaceKinal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Get Health Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["health"]
+						},
+						"description": "Verifica el estado del servidor"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Obtiene la lista de todos los usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users?isActive=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Obtiene solo los usuarios activos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Obtiene un usuario específico por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"login\": \"juanperez\",\n  \"password\": \"miPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "login"]
+						},
+						"description": "Inicia sesión de un usuario con username o email"
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "juanperez",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "juan.perez@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "miPassword123",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Crea un nuevo usuario. El campo photo es opcional."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "juanperez_updated",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "juan.perez.updated@example.com",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Actualiza un usuario existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "passwordActual",
+									"value": "miPassword123",
+									"type": "text"
+								},
+								{
+									"key": "passwordNueva",
+									"value": "nuevaPassword456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Actualiza la contraseña de un usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/activate",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}", "activate"]
+						},
+						"description": "Activa un usuario desactivado"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/desactivate",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}", "desactivate"]
+						},
+						"description": "Desactiva un usuario activo"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publications",
+			"item": [
+				{
+					"name": "Get All Publications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/publications",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications"]
+						},
+						"description": "Obtiene la lista de todas las publicaciones"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Publications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/publications?isActive=true",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications"],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						},
+						"description": "Obtiene solo las publicaciones activas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Publication By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/publications/{{publicationId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications", "{{publicationId}}"]
+						},
+						"description": "Obtiene una publicación específica por su ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Publication",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userId",
+									"value": "{{userId}}",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Mi primera publicación",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Tecnología",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Este es el contenido de mi primera publicación sobre tecnología.",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/publications",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications"]
+						},
+						"description": "Crea una nueva publicación. El campo photo es opcional."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Publication",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Título actualizado",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Desarrollo",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "Contenido actualizado de la publicación.",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/publications/{{publicationId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications", "{{publicationId}}"]
+						},
+						"description": "Actualiza una publicación existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Publication",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/publications/{{publicationId}}/activate",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications", "{{publicationId}}", "activate"]
+						},
+						"description": "Activa una publicación desactivada"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Publication",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/publications/{{publicationId}}/desactivate",
+							"host": ["{{baseUrl}}"],
+							"path": ["publications", "{{publicationId}}", "desactivate"]
+						},
+						"description": "Desactiva una publicación activa"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001/kinalface/v1",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "65f8a9b2c3d4e5f6a7b8c9d0",
+			"type": "string"
+		},
+		{
+			"key": "publicationId",
+			"value": "65f8a9b2c3d4e5f6a7b8c9d2",
+			"type": "string"
+		}
+	]
+}
