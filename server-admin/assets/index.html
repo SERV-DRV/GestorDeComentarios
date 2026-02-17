@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinalFace</title>
+    <style>
+        :root { --primary: #1877f2; --secondary: #42b72a; --bg: #f0f2f5; }
+        body { font-family: Arial, sans-serif; background-color: var(--bg); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .main-container { display: flex; gap: 50px; max-width: 900px; width: 90%; align-items: center; flex-wrap: wrap; }
+        .brand { flex: 1; min-width: 300px; }
+        .brand h1 { color: var(--primary); font-size: 3rem; margin-bottom: 0; }
+        .brand p { font-size: 1.5rem; color: #1c1e21; }
+        .auth-container { flex: 1; min-width: 300px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #dddfe2; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        button { width: 100%; padding: 12px; border: none; border-radius: 6px; font-size: 1.1rem; font-weight: bold; cursor: pointer; color: white; }
+        .btn-login { background-color: var(--primary); }
+        .btn-register { background-color: var(--secondary); margin-top: 10px; }
+        hr { border: 0; border-top: 1px solid #dadde1; margin: 20px 0; }
+        .toggle-text { text-align: center; color: var(--primary); cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="brand">
+            <h1>KinalFace</h1>
+            <p>Conéctate con amigos y el mundo en Gestor de Comentarios.</p>
+        </div>
+        <div class="auth-container">
+            <div class="card" id="loginCard">
+                <form id="loginForm">
+                    <input type="text" id="loginUser" placeholder="Correo o usuario" required>
+                    <input type="password" id="loginPass" placeholder="Contraseña" required>
+                    <button type="submit" class="btn-login">Iniciar Sesión</button>
+                </form>
+                <hr>
+                <button class="btn-register" onclick="toggleAuth()">Crear cuenta nueva</button>
+            </div>
+            <div class="card" id="registerCard" style="display: none;">
+                <h3 style="margin-top:0">Regístrate</h3>
+                <form id="registerForm">
+                    <input type="text" id="regUsername" placeholder="Usuario (mín. 3 caracteres)" required>
+                    <input type="email" id="regEmail" placeholder="Correo electrónico" required>
+                    <input type="password" id="regPass" placeholder="Contraseña (mín. 6 caracteres)" required>
+                    <button type="submit" class="btn-register">Registrarte</button>
+                </form>
+                <hr>
+                <p class="toggle-text" onclick="toggleAuth()">¿Ya tienes cuenta? Inicia sesión</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        const API_URL = '/kinalface/v1/users';
+
+        function toggleAuth() {
+            const loginCard = document.getElementById('loginCard');
+            const registerCard = document.getElementById('registerCard');
+            loginCard.style.display = loginCard.style.display === 'none' ? 'block' : 'none';
+            registerCard.style.display = registerCard.style.display === 'none' ? 'block' : 'none';
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('username', document.getElementById('regUsername').value);
+            formData.append('email', document.getElementById('regEmail').value);
+            formData.append('password', document.getElementById('regPass').value);
+
+            try {
+                const res = await fetch(API_URL, { method: 'POST', body: formData });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('Usuario creado con éxito');
+                    toggleAuth();
+                } else {
+                    alert(data.message || 'Error al registrar');
+                }
+            } catch (err) { alert('Error de conexión'); }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const res = await fetch(`${API_URL}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        login: document.getElementById('loginUser').value,
+                        password: document.getElementById('loginPass').value 
+                    })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    localStorage.setItem('userId', data.user.id);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.message || 'Credenciales incorrectas');
+                }
+            } catch (err) { alert('Error de conexión'); }
+        });
+    </script>
+</body>
+</html>

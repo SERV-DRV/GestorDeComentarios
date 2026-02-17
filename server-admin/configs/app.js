@@ -1,52 +1,57 @@
 "use strict";
 
-//Importaciones
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
 import { corsOptions } from "./cors-configuration.js";
-import { dbConnection } from "../configs/db.js";
+import { dbConnection } from "./db.js";
 
-//Rutas
 import usersRoutes from "../src/users/user.routes.js";
 import publicationsRoutes from "../src/publications/publication.routes.js";
 import comentariesRoutes from "../src/comentaries/comentarie.routes.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const BASE_URL = "/kinalface/v1";
 
-//Configuración de mi aplicación
-//Se almacena en una funcion para que pueda ser exportada
-// Usada al crear la instancia de la aplicacion
 const middlewares = (app) => {
   app.use(express.urlencoded({ extended: false, limit: "10mb" }));
   app.use(express.json({ limit: "10mb" }));
   app.use(cors(corsOptions));
   app.use(morgan("dev"));
+  app.use(express.static(path.join(__dirname, "../assets")));
 };
 
-//Integracion de todas las rutas
 const routes = (app) => {
   app.use(`${BASE_URL}/users`, usersRoutes);
   app.use(`${BASE_URL}/publications`, publicationsRoutes);
   app.use(`${BASE_URL}/comentaries`, comentariesRoutes);
+
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "../assets/index.html"));
+  });
 };
-//FUNCIÓN PARA INICIAR EL SERVIDOR
-const initServer = async (app) => {
-  //Creación de la instancia de la aplicaccion
-  app = express();
+
+const initServer = async () => {
+  const app = express();
   const PORT = process.env.PORT || 3001;
+  
   try {
-    //CONFIGURACIONES DEL MIDDLEWARES (Mi aplicación)
-    dbConnection();
+    await dbConnection();
     middlewares(app);
     routes(app);
 
     app.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
-      console.log(`Base URL: http://localhost:${PORT}${BASE_URL}`);
+      console.log(`-----------------------------------------`);
+      console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
+      console.log(`🌐 Frontend: http://localhost:${PORT}`);
+      console.log(`📡 API URL:  http://localhost:${PORT}${BASE_URL}`);
+      console.log(`-----------------------------------------`);
     });
 
-    //Primera ruta
     app.get(`${BASE_URL}/health`, (req, res) => {
       res.status(200).json({
         status: "ok",
@@ -55,7 +60,7 @@ const initServer = async (app) => {
       });
     });
   } catch (error) {
-    console.log(error);
+    console.error("❌ Error al iniciar el servidor:", error);
   }
 };
 

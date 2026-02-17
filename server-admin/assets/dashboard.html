@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KinalFace - Muro</title>
+    <style>
+        :root { --fb-blue: #1877f2; --fb-bg: #f0f2f5; --white: #ffffff; }
+        body { font-family: Segoe UI, Helvetica, Arial, sans-serif; background-color: var(--fb-bg); margin: 0; color: #1c1e21; }
+        nav { background: var(--white); height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav h1 { color: var(--fb-blue); margin: 0; font-size: 24px; }
+        .logout-btn { background: #e4e6eb; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .container { max-width: 680px; margin: 20px auto; padding: 0 10px; }
+        .card { background: var(--white); border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.2); padding: 12px; margin-bottom: 16px; }
+        .create-post-form input, .create-post-form textarea { width: 100%; border: 1px solid #ddd; border-radius: 6px; padding: 10px; margin-bottom: 8px; box-sizing: border-box; background: #f5f6f7; }
+        .btn-post { width: 100%; background: var(--fb-blue); color: white; border: none; border-radius: 6px; padding: 8px; font-weight: bold; cursor: pointer; }
+        .post { padding: 12px; }
+        .post-title { font-weight: bold; font-size: 18px; margin-bottom: 4px; }
+        .post-category { display: inline-block; background: #e7f3ff; color: var(--fb-blue); font-size: 12px; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+        .post-photo { width: 100%; border-radius: 4px; margin: 10px 0; max-height: 400px; object-fit: cover; }
+        .comment-section { margin-top: 12px; border-top: 1px solid #ebedf0; padding-top: 12px; }
+        .comment { background: #f0f2f5; border-radius: 18px; padding: 8px 12px; margin-bottom: 8px; font-size: 14px; }
+        .comment-input-group { display: flex; gap: 8px; margin-top: 10px; }
+        .comment-input { flex-grow: 1; border-radius: 20px; border: 1px solid #ddd; padding: 8px 12px; outline: none; background: #f0f2f5; }
+        .btn-send-comment { background: var(--fb-blue); color: white; border: none; border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>KinalFace</h1>
+        <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
+    </nav>
+
+    <div class="container">
+        <!-- FORMULARIO PARA CREAR PUBLICACIÓN -->
+        <div class="card">
+            <div style="font-weight: bold; margin-bottom: 10px;">Crear publicación</div>
+            <form id="publicationForm" class="create-post-form">
+                <input type="text" id="pubTitle" placeholder="Título de la publicación" required>
+                <input type="text" id="pubCategory" placeholder="Categoría (Ej: Tecnología, Social)" required>
+                <textarea id="pubContent" rows="3" placeholder="¿Qué estás pensando?" required></textarea>
+                <label style="font-size: 12px; color: #65676b;">Subir foto (opcional):</label>
+                <input type="file" id="pubPhoto" accept="image/*">
+                <button type="submit" class="btn-post">Publicar</button>
+            </form>
+        </div>
+
+        <!-- CONTENEDOR DE PUBLICACIONES -->
+        <div id="publicationsFeed">
+            <!-- Las publicaciones se cargarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        const API_PUB = '/kinalface/v1/publications';
+        const API_COM = '/kinalface/v1/comentaries';
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId'); // Asegúrate de guardar esto al loguearte
+
+        if (!token) window.location.href = 'index.html';
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // CARGAR PUBLICACIONES
+        async function loadPublications() {
+            try {
+                const res = await fetch(API_PUB);
+                const result = await res.json();
+                const feed = document.getElementById('publicationsFeed');
+                
+                // Usamos result.data porque tu controlador devuelve { succes: true, data: [...] }
+                const publications = result.data || [];
+
+                feed.innerHTML = publications.map(pub => `
+                    <div class="card post">
+                        <div class="post-title">${pub.title}</div>
+                        <span class="post-category">${pub.category}</span>
+                        <p>${pub.content}</p>
+                        ${pub.photo && pub.photo !== 'photos/default_publication' ? `<img src="${pub.photo}" class="post-photo">` : ''}
+                        
+                        <div class="comment-section">
+                            <div id="comments-container-${pub._id}">
+                                <!-- Comentarios -->
+                            </div>
+                            <div class="comment-input-group">
+                                <input type="text" class="comment-input" id="input-${pub._id}" placeholder="Escribe un comentario...">
+                                <button class="btn-send-comment" onclick="addComment('${pub._id}')">></button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Cargar comentarios para cada publicación
+                publications.forEach(pub => loadComments(pub._id));
+
+            } catch (err) {
+                console.error("Error al cargar publicaciones", err);
+            }
+        }
+
+        // CREAR PUBLICACIÓN
+        document.getElementById('publicationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('userId', userId);
+            formData.append('title', document.getElementById('pubTitle').value);
+            formData.append('category', document.getElementById('pubCategory').value);
+            formData.append('content', document.getElementById('pubContent').value);
+            
+            const photoFile = document.getElementById('pubPhoto').files[0];
+            if (photoFile) formData.append('photo', photoFile);
+
+            try {
+                const res = await fetch(API_PUB, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                
+                if (res.ok) {
+                    document.getElementById('publicationForm').reset();
+                    loadPublications();
+                } else {
+                    const errorData = await res.json();
+                    alert("Error: " + (errorData.message || "No se pudo publicar"));
+                }
+            } catch (err) {
+                alert("Error de conexión");
+            }
+        });
+
+        // CARGAR COMENTARIOS
+        async function loadComments(pubId) {
+            try {
+                // Ajusta esta ruta si tu backend usa un filtro diferente para obtener comentarios por publicación
+                const res = await fetch(`${API_COM}?publication=${pubId}`);
+                const result = await res.json();
+                const container = document.getElementById(`comments-container-${pubId}`);
+                
+                const comments = result.data || []; // Asumiendo que devuelve { data: [] }
+                container.innerHTML = comments.map(c => `
+                    <div class="comment">
+                        ${c.text}
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error("Error al cargar comentarios", err);
+            }
+        }
+
+        // AGREGAR COMENTARIO
+        async function addComment(pubId) {
+            const textInput = document.getElementById(`input-${pubId}`);
+            const text = textInput.value;
+
+            if (!text) return;
+
+            try {
+                const res = await fetch(API_COM, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        user: userId,
+                        publication: pubId
+                    })
+                });
+
+                if (res.ok) {
+                    textInput.value = '';
+                    loadComments(pubId);
+                } else {
+                    alert("No se pudo comentar");
+                }
+            } catch (err) {
+                alert("Error de conexión");
+            }
+        }
+
+        // Inicializar
+        loadPublications();
+    </script>
+</body>
+</html>
