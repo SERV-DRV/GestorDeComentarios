@@ -10,6 +10,7 @@ import { dbConnection } from '../configs/db.js';
 //Rutas
 import usersRoutes from '../src/users/user.routes.js';
 import publicationsRoutes from '../src/publications/publication.routes.js';
+import comentariesRoutes from '../src/comentaries/comentaries.routes.js';
 
 const BASE_URL = '/kinalface/v1';
 
@@ -28,7 +29,7 @@ const middlewares = (app) => {
 const routes = (app) => {
     app.use(`${BASE_URL}/users`, usersRoutes);
     app.use(`${BASE_URL}/publications`, publicationsRoutes);
-}
+    app.use(`${BASE_URL}/comentaries`, comentariesRoutes);
 
 //FUNCIÓN PARA INICIAR EL SERVIDOR
 const initServer = async (app) => {

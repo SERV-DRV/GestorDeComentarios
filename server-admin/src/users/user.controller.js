@@ -2,19 +2,18 @@
 
 import mongoose from "mongoose";
 import User from "./user.model.js";
+import { cloudinary } from "../../middlewares/file-uploader.js";
 
 export const getUsers = async (req, res) => {
   try {
     const { isActive } = req.query;
     const filter = {};
-    if (isActive !== undefined) {
-      filter.isActive = isActive === "true";
-    }
+    if (isActive !== undefined) filter.isActive = isActive === "true";
 
     const users = await User.find(filter).sort({ createdAt: -1 });
 
     res.status(200).json({
-      success: true,
+      succes: true,
       total: users.length,
       data: users,
     });
@@ -32,10 +31,7 @@ export const getUserById = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "ID de MongoDB no válido",
-      });
+      return res.status(400).json({ success: false, message: "ID no válido" });
     }
 
     const user = await User.findById(id);
@@ -72,7 +68,6 @@ export const createUser = async (req, res) => {
     } else {
       userData.photo = "photos/default_user";
     }
-
     const existingUser = await User.findOne({
       $or: [{ email: userData.email }, { username: userData.username }],
     });
@@ -88,13 +83,13 @@ export const createUser = async (req, res) => {
     await user.save();
 
     res.status(201).json({
-      success: true,
+      succes: true,
       message: "Usuario creado exitosamente",
       data: user,
     });
   } catch (error) {
     res.status(500).json({
-      success: false,
+      succes: false,
       message: "Error al crear el usuario",
       error: error.message,
     });
@@ -106,22 +101,52 @@ export const updateUser = async (req, res) => {
     const { id } = req.params;
     const updateData = { ...req.body };
 
-    if (!mongoose.Types.ObjectId.isValid(id))
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ success: false, message: "ID no válido" });
+    }
 
     const user = await User.findById(id);
-    if (!user) return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Usuario no encontrado" });
+    }
 
     if (req.file) {
+      if (user.photo && user.photo !== "photos/default_user") {
+        const photoPath = user.photo;
+        const photoWithoutExt = photoPath.substring(
+          0,
+          photoPath.lastIndexOf("."),
+        );
+        const publicId = `angendaSexto/${photoWithoutExt}`;
+
+        try {
+          await cloudinary.uploader.destroy(publicId);
+        } catch (error) {
+          console.error(
+            `Error al eliminar imagen vieja de Cloudinary: ${error.message}`,
+          );
+        }
+      }
+
       const extension = req.file.path.split(".").pop();
       const fileName = req.file.filename;
-      const relativePath = fileName.substring(fileName.indexOf("photos/"));
+      const relativePath = fileName.includes("photos/")
+        ? fileName.substring(fileName.indexOf("photos/"))
+        : fileName;
       updateData.photo = `${relativePath}.${extension}`;
     }
 
     if (updateData.passwordNueva) {
-      if (!updateData.passwordActual || updateData.passwordActual !== user.password) {
-        return res.status(400).json({ success: false, message: "Contraseña actual incorrecta" });
+      if (
+        !updateData.passwordActual ||
+        updateData.passwordActual !== user.password
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "La contraseña actual es incorrecta o no fue proporcionada",
+        });
       }
       updateData.password = updateData.passwordNueva;
       delete updateData.passwordNueva;
@@ -133,13 +158,19 @@ export const updateUser = async (req, res) => {
       runValidators: true,
     });
 
-    res.status(200).json({ success: true, message: "Usuario actualizado exitosamente", data: updatedUser });
+    res.status(200).json({
+      success: true,
+      message: "Usuario actualizado exitosamente",
+      data: updatedUser,
+    });
   } catch (error) {
-    res.status(400).json({ success: false, message: "Error al actualizar el usuario", error: error.message });
+    res.status(400).json({
+      success: false,
+      message: "Error al actualizar el usuario",
+      error: error.message,
+    });
   }
 };
-
-
 
 export const changeUserStatus = async (req, res) => {
   try {
@@ -174,38 +205,38 @@ export const changeUserStatus = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-    try {
-        const { login, password } = req.body;
+  try {
+    const { login, password } = req.body;
 
-        const user = await User.findOne({
-            $or: [{ email: login }, { username: login }],
-            isActive: true
-        });
+    const user = await User.findOne({
+      $or: [{ email: login }, { username: login }],
+      isActive: true,
+    });
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'Usuario no encontrado'
-            });
-        }
-
-        if (user.password !== password) {
-            return res.status(401).json({
-                success: false,
-                message: 'Contraseña incorrecta'
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            message: 'Login exitoso',
-            data: user
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Error al iniciar sesión',
-            error: error.message
-        });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Credenciales inválidas o usuario no encontrado",
+      });
     }
+
+    if (user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Contraseña incorrecta",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Login exitoso",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error al iniciar sesión",
+      error: error.message,
+    });
+  }
 };
