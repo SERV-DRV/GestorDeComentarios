@@ -9,7 +9,6 @@ export const getComentaries = async (req, res) => {
 
     const comentaries = await Comentarie.find({
       publication: idPublication,
-      isActive: true,
     }).populate("user", "username photo");
 
     res.status(200).json({

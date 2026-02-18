@@ -6,7 +6,7 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import { corsOptions } from "./cors-configuration.js";
-import { dbConnection } from "./db.js";
+import { dbConnection } from "../configs/db.js";
 
 import usersRoutes from "../src/users/user.routes.js";
 import publicationsRoutes from "../src/publications/publication.routes.js";
@@ -46,9 +46,9 @@ const initServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`-----------------------------------------`);
-      console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
-      console.log(`🌐 Frontend: http://localhost:${PORT}`);
-      console.log(`📡 API URL:  http://localhost:${PORT}${BASE_URL}`);
+      console.log(`Servidor corriendo en el puerto ${PORT}`);
+      console.log(`Frontend: http://localhost:${PORT}`);
+      console.log(`API URL:  http://localhost:${PORT}${BASE_URL}`);
       console.log(`-----------------------------------------`);
     });
 
@@ -60,7 +60,7 @@ const initServer = async () => {
       });
     });
   } catch (error) {
-    console.error("❌ Error al iniciar el servidor:", error);
+    console.error("Error al iniciar el servidor:", error);
   }
 };
 
