@@ -269,7 +269,7 @@ Luego abre tu navegador en: `http://localhost:8080`
 
 Simplemente abre el archivo `server-admin/assets/index.html` directamente en tu navegador.
 
-**Nota:** Algunas funcionalidades podrían no funcionar correctamente al abrir el archivo directamente debido a las políticas CORS. Se recomienda usar una de las opciones con servidor local.
+**Nota:** Al abrir el archivo directamente, las llamadas a la API del backend (login, registro, cargar publicaciones, etc.) podrían no funcionar correctamente debido a las políticas CORS del navegador. Se recomienda usar una de las opciones con servidor local para garantizar el funcionamiento completo de la aplicación.
 
 #### Flujo de Uso del Frontend
 
