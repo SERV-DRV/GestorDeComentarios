@@ -22,6 +22,12 @@ Sistema de gestión de comentarios similar a Facebook, que permite a los usuario
 - **MongoDB** - Base de datos NoSQL
 - **Mongoose 9.1.5** - ODM para MongoDB
 
+### Frontend
+- **HTML5** - Estructura de la interfaz web
+- **CSS3** - Estilos y diseño responsivo
+- **JavaScript (Vanilla)** - Lógica del cliente y consumo de API
+- **Cloudinary** - Visualización de imágenes almacenadas en la nube
+
 ### Seguridad y Autenticación
 - **Argon2 0.44.0** - Encriptación de contraseñas
 - **JWT (jsonwebtoken 9.0.3)** - Autenticación mediante tokens
@@ -44,7 +50,18 @@ Sistema de gestión de comentarios similar a Facebook, que permite a los usuario
 
 ```
 GestorDeComentarios/
-├── server-admin/               # Aplicación principal del backend
+├── server-admin/               # Aplicación principal
+│   ├── assets/                # Frontend - Interfaz web
+│   │   ├── css/              # Estilos CSS
+│   │   │   ├── index.css     # Estilos de login/registro
+│   │   │   └── dashboard.css # Estilos del muro
+│   │   │
+│   │   ├── js/               # JavaScript del cliente
+│   │   │   └── script.js     # Lógica frontend y conexión API
+│   │   │
+│   │   ├── index.html        # Página de login/registro
+│   │   └── dashboard.html    # Página del muro de publicaciones
+│   │
 │   ├── configs/               # Archivos de configuración
 │   │   ├── app.js            # Configuración de Express
 │   │   ├── cors-configuration.js
@@ -58,7 +75,7 @@ GestorDeComentarios/
 │   │   ├── file-uploader.js  # Configuración de Cloudinary
 │   │   └── check-validators.js
 │   │
-│   ├── src/                  # Código fuente
+│   ├── src/                  # Código fuente del backend
 │   │   ├── users/           # Módulo de usuarios
 │   │   │   ├── user.model.js
 │   │   │   ├── user.controller.js
@@ -74,7 +91,7 @@ GestorDeComentarios/
 │   │       ├── comentarie.controller.js
 │   │       └── comentarie.routes.js
 │   │
-│   ├── index.js             # Punto de entrada
+│   ├── index.js             # Punto de entrada del servidor
 │   └── package.json         # Dependencias del proyecto
 │
 ├── postman/                 # Colección de Postman para pruebas
@@ -168,13 +185,15 @@ mongod
 
 ## 🏃 Ejecución del Proyecto
 
-### Modo Desarrollo (con auto-recarga)
+### Backend
+
+#### Modo Desarrollo (con auto-recarga)
 
 ```bash
 pnpm run dev
 ```
 
-### Modo Producción
+#### Modo Producción
 
 ```bash
 pnpm start
@@ -183,6 +202,102 @@ pnpm start
 El servidor se iniciará en: `http://localhost:3001`
 
 Base URL de la API: `http://localhost:3001/kinalface/v1`
+
+### Frontend
+
+El frontend está ubicado en `server-admin/assets/` y consta de:
+- `index.html` - Página de inicio de sesión y registro
+- `dashboard.html` - Muro principal de publicaciones y comentarios
+- `js/script.js` - Lógica del cliente
+- `css/` - Estilos de la aplicación
+
+#### Configuración del Frontend
+
+**IMPORTANTE:** Antes de ejecutar el frontend, debes configurar tu **Cloud Name de Cloudinary** en el archivo `script.js`:
+
+1. Abre el archivo `server-admin/assets/js/script.js`
+2. En la línea 1, reemplaza el texto `"tu_cloud_name"` con tu Cloud Name de Cloudinary (mantén las comillas):
+
+```javascript
+const CLOUD_NAME = "tu_cloud_name"; // ⚠️ Reemplaza solo el texto dentro de las comillas
+
+// Ejemplo si tu Cloud Name es "miempresa123":
+// const CLOUD_NAME = "miempresa123";
+```
+
+3. Para obtener tu Cloud Name:
+   - Accede a tu [Dashboard de Cloudinary](https://cloudinary.com/console)
+   - Copia el valor de **Cloud Name** que aparece en la parte superior
+
+**Nota:** Si no configuras el Cloud Name correctamente, las imágenes de usuarios y publicaciones no se mostrarán en el frontend.
+
+#### Ejecutar el Frontend
+
+Para ejecutar el frontend, tienes varias opciones:
+
+##### Opción 1: Usar Live Server (VSCode)
+
+1. Instala la extensión **Live Server** en Visual Studio Code
+2. Abre el proyecto en VSCode
+3. Haz clic derecho sobre `server-admin/assets/index.html`
+4. Selecciona **"Open with Live Server"**
+5. El navegador se abrirá automáticamente en `http://127.0.0.1:5500` (o puerto similar)
+
+##### Opción 2: Usar el servidor HTTP de Python
+
+```bash
+cd server-admin/assets
+python3 -m http.server 8080
+```
+
+Luego abre tu navegador en: `http://localhost:8080`
+
+##### Opción 3: Usar el servidor HTTP de Node.js
+
+```bash
+# Instalar http-server globalmente (solo la primera vez)
+npm install -g http-server
+
+# Ejecutar desde la carpeta assets
+cd server-admin/assets
+http-server -p 8080
+```
+
+Luego abre tu navegador en: `http://localhost:8080`
+
+##### Opción 4: Abrir directamente en el navegador
+
+Simplemente abre el archivo `server-admin/assets/index.html` directamente en tu navegador.
+
+**Nota:** Al abrir el archivo directamente, las llamadas a la API del backend (login, registro, cargar publicaciones, etc.) podrían no funcionar correctamente debido a las políticas CORS del navegador. Se recomienda usar una de las opciones con servidor local para garantizar el funcionamiento completo de la aplicación.
+
+#### Flujo de Uso del Frontend
+
+1. **Registro de Usuario:**
+   - Abre `index.html` en tu navegador
+   - Haz clic en "Crear cuenta nueva"
+   - Completa el formulario con username, email, password y foto (opcional)
+   - Haz clic en "Registrarte"
+
+2. **Inicio de Sesión:**
+   - En `index.html`, ingresa tu username o email y contraseña
+   - Haz clic en "Iniciar sesión"
+   - Serás redirigido a `dashboard.html`
+
+3. **Crear Publicaciones:**
+   - En el dashboard, completa el formulario de publicación
+   - Agrega título, categoría, contenido y foto (opcional)
+   - Haz clic en "Publicar"
+
+4. **Interactuar con Publicaciones:**
+   - Visualiza todas las publicaciones en el muro
+   - Agrega comentarios en las publicaciones
+   - Edita o desactiva tus propias publicaciones y comentarios
+   - Las publicaciones desactivadas solo son visibles para su autor
+
+5. **Gestión de Perfil:**
+   - Usa el botón "Cambiar Contraseña" en la barra de navegación
+   - Cierra sesión con el botón "Cerrar Sesión"
 
 ## 📊 Modelos de Base de Datos
 
