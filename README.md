@@ -229,7 +229,7 @@ const CLOUD_NAME = "tu_cloud_name"; // ⚠️ Reemplaza solo el texto dentro de 
    - Accede a tu [Dashboard de Cloudinary](https://cloudinary.com/console)
    - Copia el valor de **Cloud Name** que aparece en la parte superior
 
-**Nota:** Si no configuras el Cloud Name correctamente, las imágenes de usuarios y publicaciones no se mostrarán correctamente en el frontend.
+**Nota:** Si no configuras el Cloud Name correctamente, las imágenes de usuarios y publicaciones no se mostrarán en el frontend.
 
 #### Ejecutar el Frontend
 
