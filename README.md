@@ -216,10 +216,13 @@ El frontend está ubicado en `server-admin/assets/` y consta de:
 **IMPORTANTE:** Antes de ejecutar el frontend, debes configurar tu **Cloud Name de Cloudinary** en el archivo `script.js`:
 
 1. Abre el archivo `server-admin/assets/js/script.js`
-2. En la línea 1, reemplaza el valor de `CLOUD_NAME` con tu Cloud Name de Cloudinary:
+2. En la línea 1, reemplaza el texto `"tu_cloud_name"` con tu Cloud Name de Cloudinary (mantén las comillas):
 
 ```javascript
-const CLOUD_NAME = "tu_cloud_name"; // ⚠️ Reemplaza "tu_cloud_name" con tu Cloud Name de Cloudinary
+const CLOUD_NAME = "tu_cloud_name"; // ⚠️ Reemplaza solo el texto dentro de las comillas
+
+// Ejemplo si tu Cloud Name es "miempresa123":
+// const CLOUD_NAME = "miempresa123";
 ```
 
 3. Para obtener tu Cloud Name:
